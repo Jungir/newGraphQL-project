@@ -1,9 +1,42 @@
-import city, { str, name, getGreeting } from "./myModule";
-import add, {substruct} from './math';
+import { GraphQLServer } from 'graphql-yoga';
 
-console.log('ops', 'take this rnd string: ' + 'from the ciry ' + city + ' ' + name + str);
 
-console.log(getGreeting('jes'))
+// 5 main types:
+//String, Boolean, Int(whole numbers), Float(decimals), ID 
+//type definitions (schema)
+// cannot have null with !
+const typeDefs = `
+    type Query {
+       title: String!
+       price: Float!
+       releaseYear: Int
+       rating: Float
+       inStock: Boolean!
+    }
+`
+//resolvers function, what to do when the query is asked
+const resolvers = {
+    Query: {
+      title(){
+          return 'Harry Potter';
+      },
+      price(){
+          return 3.4;
+      },
+      releaseYear(){
+          return 2006;
+      },
+      rating(){
+          return 4.9; 
+      },
+      inStock(){
+          return true;
+      }
+    }
+}
 
-console.log(add(1,3));
-console.log(substruct(1,3));
+//start the server
+const server = new GraphQLServer({
+    typeDefs, resolvers
+});
+server.start(() => console.log('server is on port 4000'));
