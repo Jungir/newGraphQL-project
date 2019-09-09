@@ -10,7 +10,8 @@ const typeDefs = `
         greeting(name:String): String!
         me: User!
         post: Post!
-        add(a:Float!, b:Float!): Float!
+        add(numbers: [Float!]!): Float!
+        grades: [Int!]!
     }
     type User{
         id: ID!
@@ -29,9 +30,12 @@ const typeDefs = `
 //resolvers function, what to do when the query is asked
 const resolvers = {
     Query: {
+        grades(parent, args, ctx, info){
+            return [10, 20];
+        },
         add(parent, args, ctx, info){
-            let {a, b} = args;
-            return a + b;
+            let numbers = args.numbers.length ? args.numbers : [];
+            return numbers.reduce((acc, curValue) => acc + curValue);
         },
         greeting(parent, args, ctx, info){
             let name = args.name ? args.name : 'from the earth';
