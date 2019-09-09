@@ -7,8 +7,10 @@ import { GraphQLServer } from 'graphql-yoga';
 // cannot have null with !
 const typeDefs = `
     type Query{
+        greeting(name:String): String!
         me: User!
         post: Post!
+        add(a:Float!, b:Float!): Float!
     }
     type User{
         id: ID!
@@ -27,6 +29,14 @@ const typeDefs = `
 //resolvers function, what to do when the query is asked
 const resolvers = {
     Query: {
+        add(parent, args, ctx, info){
+            let {a, b} = args;
+            return a + b;
+        },
+        greeting(parent, args, ctx, info){
+            let name = args.name ? args.name : 'from the earth';
+            return 'Hello ' + name;
+        },
         me(){
             return {
                 id: '1234', 
