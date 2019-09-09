@@ -6,32 +6,44 @@ import { GraphQLServer } from 'graphql-yoga';
 //type definitions (schema)
 // cannot have null with !
 const typeDefs = `
-    type Query {
-       title: String!
-       price: Float!
-       releaseYear: Int
-       rating: Float
-       inStock: Boolean!
+    type Query{
+        me: User!
+        post: Post!
+    }
+    type User{
+        id: ID!
+        name: String!
+        email: String!
+        age: Int
+    }
+    type Post{
+        id: ID!
+        title: String!
+        body: String!
+        published: Boolean!
+        
     }
 `
 //resolvers function, what to do when the query is asked
 const resolvers = {
     Query: {
-      title(){
-          return 'Harry Potter';
-      },
-      price(){
-          return 3.4;
-      },
-      releaseYear(){
-          return 2006;
-      },
-      rating(){
-          return 4.9; 
-      },
-      inStock(){
-          return true;
-      }
+        me(){
+            return {
+                id: '1234', 
+                name: 'Kamil', 
+                email: 'kamail@netninja.co.uk',     
+             
+            }
+        },
+        post(){
+            return {
+                id: `${Math.random()}`,
+                title: 'the best graphQl ever',
+                body: 'year u should check this out. Lorem ipsum...',
+                published: false
+
+            }
+        }
     }
 }
 
