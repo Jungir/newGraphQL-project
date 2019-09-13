@@ -136,6 +136,11 @@ const Mutation = {
       };
 
       db.comments.push(comment);
+      //================================================
+      //mutaiton type is now enforsed with only 3 values
+      //CREATED, DELETED, UPDATED
+      //values used other than these are destined to fail
+      //================================================
       pubsub.publish(`comment ${args.data.post}`, {
         comment:{
           mutation: "CREATED",
